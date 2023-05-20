@@ -168,7 +168,7 @@ public class Login extends javax.swing.JFrame {
                 
                 if (result.next()) {
                     
-                    System.out.println("LOGIN COM SUCESSO");
+                    System.out.println("LOGIN COM SUCESSO TOTAL");
                     
                 } else {
                     error_message.setText("Insira um utilizador valido");
