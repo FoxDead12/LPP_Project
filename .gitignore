@@ -1,3 +1,4 @@
-test/*
-nbproject/*
-build/*
+/test/
+/nbproject/
+/build/
+/dist/
