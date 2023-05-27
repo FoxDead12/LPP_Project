@@ -33,20 +33,6 @@ public class Employee extends javax.swing.JPanel {
         
         
         save_changes.setEnabled(false);
-        jTable1.getModel().addTableModelListener(
-            new TableModelListener() 
-            {
-                public void tableChanged(TableModelEvent evt) 
-                {
-                    // here goes your code "on cell update"           
-                    rowToUpdate.add(new RowToUpdate(evt.getFirstRow(), usersList.get(evt.getFirstRow()).getEmail()));
-                    if (!rowToUpdate.isEmpty()) {
-                        save_changes.setEnabled(true);
-                    }
-                }  
-            }
-             
-        );
     }
 
     
@@ -243,6 +229,22 @@ public class Employee extends javax.swing.JPanel {
             }
             
             jTable1.setModel(model);
+            
+            jTable1.getModel().addTableModelListener(
+            new TableModelListener() 
+            {
+                public void tableChanged(TableModelEvent evt) 
+                {
+                    System.out.println("MUDOOU");
+                    // here goes your code "on cell update"           
+                    rowToUpdate.add(new RowToUpdate(evt.getFirstRow(), usersList.get(evt.getFirstRow()).getEmail()));
+                    if (!rowToUpdate.isEmpty()) {
+                        save_changes.setEnabled(true);
+                    }
+                }  
+            }
+             
+        );
         } catch (Exception e) {
             e.printStackTrace();
         }
