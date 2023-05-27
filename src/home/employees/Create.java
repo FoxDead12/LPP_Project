@@ -206,9 +206,9 @@ public class Create extends javax.swing.JFrame {
             Hash hash = new Hash();
             String hashText = hash.generateHash(password_input.getPassword());
             if (cargo_input.getSelectedIndex() == 0) {
-                user = new classes.business.Employee(name_input.getText(), name_input.getText(),hashText);
+                user = new classes.business.Employee(name_input.getText(), email_input.getText(),hashText);
             } else {
-                user = new Manager(name_input.getText(), name_input.getText(), hashText);
+                user = new Manager(name_input.getText(), email_input.getText(), hashText);
             }
             
             mainEmployee.CreateEmployee(user);
