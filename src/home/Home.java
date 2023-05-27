@@ -22,7 +22,7 @@ public class Home extends javax.swing.JFrame {
         db.createConnection();
 
         //Set User
-        user = new Manager("David Xavier", "davidxavier7512@gmail.com");
+        user = userComming;
         
         //Load Default Components Values
         loadDefaultComponents();
