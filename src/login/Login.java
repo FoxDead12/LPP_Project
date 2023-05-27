@@ -2,10 +2,18 @@ package login;
 
 import classes.DataBase;
 import classes.Hash;
+import classes.business.Employee;
+import classes.business.Manager;
+import classes.business.User;
+import home.Home;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.regex.Pattern;
+import javax.swing.JFrame;
 
 public class Login extends javax.swing.JFrame {
 
@@ -34,6 +42,7 @@ public class Login extends javax.swing.JFrame {
         password_input = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Login");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -167,8 +176,13 @@ public class Login extends javax.swing.JFrame {
                 ResultSet result = db.executeQuery("SELECT full_name, email, role FROM users WHERE email = '?' AND hash = '?' LIMIT 1;", email_input.getText(), hash.generateHash(password_input.getPassword())); 
                 
                 if (result.next()) {
-                    
-                    System.out.println("LOGIN COM SUCESSO TOTAL");
+
+                    User user = CreateUserClass(result.getString("full_name"), result.getString("email"), result.getString("role"));
+                    this.dispose();
+                    Home home = new Home(user);
+                    home.setSize(0, 0);
+                    home.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+                    home.setVisible(true);
                     
                 } else {
                     error_message.setText("Insira um utilizador valido");
@@ -216,8 +230,9 @@ public class Login extends javax.swing.JFrame {
             
             public void run() {
                 new Login().setVisible(true);
-                
             }
+            
+            
         });
     }
 
@@ -253,6 +268,17 @@ public class Login extends javax.swing.JFrame {
         return message;
     }
     
+    private User CreateUserClass (String full_name, String email, String role) {
+        User user = null;
+        
+        if (role.equals("manager")) {
+            user = new Manager(full_name ,email);
+        } else {
+            user = new Employee(full_name, email);
+        }
+        
+        return user;
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField email_input;

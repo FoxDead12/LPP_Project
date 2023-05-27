@@ -44,4 +44,23 @@ public class DataBase {
         
         return result;
     }
+    
+    public void updateQuery (String query, String... variavels) {
+                        
+        try {
+     
+            for (String var : variavels) {
+                // Check string is not a SQL Query
+                if (!var.matches("^(?!.*(SELECT|FROM|CREATE|DROP|UPDATE|INSERT|ALTER|DELETE|ATTACH|DETACH)).*$")) { throw new Error ("Invalid string comming");} 
+                query = query.replaceFirst("(?:[?])+", var);
+            }
+            
+            Statement statement = conn.createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e) {
+            
+            e.printStackTrace();
+        }
+        
+    }
 }
