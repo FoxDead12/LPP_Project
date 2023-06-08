@@ -3,6 +3,8 @@ package home;
 import classes.DataBase;
 import classes.business.Manager;
 import classes.business.User;
+import home.cash.Cash;
+import home.cliente.Cliente;
 import home.employees.Employee;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -187,8 +189,9 @@ public class Home extends javax.swing.JFrame {
         Menu menu2 = new Menu("Produtos", new String[]{"manager"});
         Menu menu3 = new Menu("Vendas", new String[]{"manager"});
         Menu menu4 = new Menu("Empregados", new String[]{"manager"});
-        Menu menu5 = new Menu("Caixa", new String[]{"manager", "employee"});
-        menus = new Menu[]{menu1, menu2, menu3, menu4, menu5};
+        Menu menu5 = new Menu("Clientes", new String[]{"manager"});
+        Menu menu6 = new Menu("Caixa", new String[]{"manager", "employee"});
+        menus = new Menu[]{menu1, menu2, menu3, menu4, menu5, menu6};
         
         DefaultListModel demoList = new DefaultListModel();
 
@@ -239,8 +242,14 @@ public class Home extends javax.swing.JFrame {
                 case "Home" :
                     panel = new home.home.Home(this);
                     break;
+                case "Clientes":
+                    panel = new Cliente(this);
+                    break;
                 case "Empregados":
                     panel = new Employee(this);
+                    break;
+                case "Caixa":
+                    panel = new Cash(this);
                     break;
                 default:
                     throw new Exception("Invalid Menu");
