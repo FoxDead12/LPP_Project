@@ -12,7 +12,7 @@ public class DataBase {
     public void createConnection () {
         try {
             Class.forName("org.postgresql.Driver");
-            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/lpp_project", "postgres", "#rootPOSTGRES12");
+            conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/lpp_project", "postgres", "docker");
             
             if (conn == null) {
                 System.out.println("Connection Failed");

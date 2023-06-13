@@ -6,6 +6,7 @@ import classes.business.User;
 import home.cash.Cash;
 import home.cliente.Cliente;
 import home.employees.Employee;
+import home.products.Product;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
@@ -250,6 +251,9 @@ public class Home extends javax.swing.JFrame {
                     break;
                 case "Caixa":
                     panel = new Cash(this);
+                    break;
+                case "Produtos":
+                    panel =  new Product(this);
                     break;
                 default:
                     throw new Exception("Invalid Menu");

@@ -4,7 +4,6 @@
  */
 package home.products;
 
-import classes.business.Product;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public class Product extends javax.swing.JPanel {
 
     private home.Home mainHome;
-    private ArrayList<Product> productList = new ArrayList<>();
+    private ArrayList<classes.business.Product> productList = new ArrayList<>();
     private ArrayList<RowToUpdate> rowToUpdate = new ArrayList<>();
 
     public Product(home.Home home) {
@@ -144,12 +143,12 @@ public class Product extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    private void add_productActionPerformed(java.awt.event.ActionEvent evt) {
         Create create = new Create(this);
         create.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void saveChangesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangesButtonActionPerformed
+    private void save_changesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangesButtonActionPerformed
 
         // Save updates
         try {
@@ -183,7 +182,7 @@ public class Product extends javax.swing.JPanel {
             ArrayList<String> valuesQuery = new ArrayList<>();
 
             for (int index : jTable1.getSelectedRows()) {
-                Product product = productList.get(index);
+                classes.business.Product product = productList.get(index);
                 valuesQuery.add("DELETE FROM products WHERE id = " + product.getId() + ";");
             }
 
@@ -211,11 +210,11 @@ public class Product extends javax.swing.JPanel {
             jTable1.getTableHeader().setReorderingAllowed(false);
 
             while (result.next()) {
-                Product product = new Product(result.getInt("id"), result.getString("name"), result.getDouble("price"), result.getInt("quantity"));
+                classes.business.Product product = new classes.business.Product(result.getInt("id"), result.getString("name"), result.getDouble("price"), result.getInt("quantity"));
                 productList.add(product);
             }
 
-            for (Product product : productList) {
+            for (classes.business.Product product : productList) {
                 model.addRow(new Object[]{product.getName(), product.getPrice(), product.getQuantity()});
             }
 
@@ -238,16 +237,16 @@ public class Product extends javax.swing.JPanel {
         }
     }
 
-    public void createProduct(Product product) {
+    public void createProduct(classes.business.Product product) {
 
         try {
 
-            mainHome.db.updateQuery("INSERT INTO products (name, price, quantity) VALUES ('?', ?, ?)", product.getName(), product.getPrice(), product.getQuantity());
+            mainHome.db.updateQuery("INSERT INTO products (name, price, quantity) VALUES ('?', ?, ?)", product.getName(), String.valueOf(product.getPrice()), String.valueOf(product.getQuantity()));
 
             getAllProducts();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            
         }
     }
 
@@ -269,5 +268,6 @@ class RowToUpdate {
         this.index = index;
         this.id = id;
     }
-}
+}}
+
     
