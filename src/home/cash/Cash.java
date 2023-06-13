@@ -19,8 +19,9 @@ import java.util.ArrayList;
 public class Cash extends javax.swing.JPanel {
 
     private home.Home mainHome;
-    private ArrayList<Button> buttons = new ArrayList<>();
-    
+    private ArrayList<classes.business.Product> products = new ArrayList<>();
+        private ArrayList<Button> buttons = new ArrayList<>();
+
     public Cash(home.Home home) {
         initComponents();
         
@@ -32,7 +33,7 @@ public class Cash extends javax.swing.JPanel {
         table_products.setGridColor(Color.decode("#1976F0"));
         table_products.setRowHeight(60);
         
-        LoadButtons();
+        LoadProducts();
     }
 
     /**
@@ -97,32 +98,23 @@ public class Cash extends javax.swing.JPanel {
         
     }
     
-    public void LoadButtons () {
+    public void LoadProducts () {
         
         try {
-            ResultSet result = mainHome.db.executeQuery("SELECT name FROM products;");
+            ResultSet result = mainHome.db.executeQuery("SELECT id, name, price, amount FROM products;");
             Integer countLines = 0;
            
             while (result.next()) {
-                Button button = new Button(result.getString("name"));
-                buttons.add(button);
-                buttons_container.add(button);
-                countLines++;     
-            }
+                classes.business.Product product = new classes.business.Product(result.getInt("id"), result.getString("name"), result.getDouble("price"), result.getDouble("name"));
+                products.add(product);
+                
+                Button button = new Button();
+                button.setName(product.getName());
+            }   
             
-            while (result.next()) {
-                Button button = new Button(result.getString("name"));
-                buttons.add(button);
-                buttons_container.add(button);
-                 countLines++;               
-            }
-            
-            
-            Integer numColum = 5;
-            Integer numRows = (countLines / numColum) + 1;
-            buttons_container.setLayout(new GridLayout(numColum, numRows));
-            
-            
+         
+
+           
         } catch (Exception e) {
             
             e.printStackTrace();
