@@ -17,6 +17,9 @@ public class Product{
         this.quantity = quantity;
     }
     
+    public Product(String text, String text2, String text3) {
+    }
+
     public int getId() {
         return this.id;
     }

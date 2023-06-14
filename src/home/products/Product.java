@@ -90,7 +90,7 @@ public class Product extends javax.swing.JPanel {
         addButton.setBorder(null);
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
 
@@ -143,12 +143,13 @@ public class Product extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-    private void add_productActionPerformed(java.awt.event.ActionEvent evt) {
+    
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
         Create create = new Create(this);
         create.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void save_changesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangesButtonActionPerformed
+    private void saveChangesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangesButtonActionPerformed
 
         // Save updates
         try {
@@ -173,7 +174,7 @@ public class Product extends javax.swing.JPanel {
     }//GEN-LAST:event_saveChangesButtonActionPerformed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
-        // TODO add your handling code here:
+        
         if (jTable1.getSelectedRows().length == 0) {
             return;
         }
@@ -193,9 +194,6 @@ public class Product extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
-
-    
-
 
     private void getAllProducts() {
         productList.clear();
@@ -237,7 +235,7 @@ public class Product extends javax.swing.JPanel {
         }
     }
 
-    public void createProduct(classes.business.Product product) {
+    public void CreateProduct(classes.business.Product product) {
 
         try {
 
