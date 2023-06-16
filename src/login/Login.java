@@ -173,11 +173,11 @@ public class Login extends javax.swing.JFrame {
            
             try {
                 Hash hash = new Hash();
-                ResultSet result = db.executeQuery("SELECT full_name, email, role FROM users WHERE email = '?' AND hash = '?' LIMIT 1;", email_input.getText(), hash.generateHash(password_input.getPassword())); 
+                ResultSet result = db.executeQuery("SELECT id, full_name, email, role FROM users WHERE email = '?' AND hash = '?' LIMIT 1;", email_input.getText(), hash.generateHash(password_input.getPassword())); 
                 
                 if (result.next()) {
 
-                    User user = CreateUserClass(result.getString("full_name"), result.getString("email"), result.getString("role"));
+                    User user = CreateUserClass(result.getInt("id") ,result.getString("full_name"), result.getString("email"), result.getString("role"));
                     this.dispose();
                     Home home = new Home(user);
                     home.setSize(0, 0);
@@ -268,13 +268,13 @@ public class Login extends javax.swing.JFrame {
         return message;
     }
     
-    private User CreateUserClass (String full_name, String email, String role) {
+    private User CreateUserClass (Integer id, String full_name, String email, String role) {
         User user = null;
         
         if (role.equals("manager")) {
-            user = new Manager(full_name ,email);
+            user = new Manager(full_name ,email, id);
         } else {
-            user = new Employee(full_name, email);
+            user = new Employee(full_name, email, id);
         }
         
         return user;

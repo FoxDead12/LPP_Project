@@ -4,13 +4,20 @@
  */
 package home.cash;
 
+import classes.business.Cliente;
+import classes.business.Product;
+import classes.business.Sales;
+import classes.business.User;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,14 +26,14 @@ import java.util.ArrayList;
 public class Cash extends javax.swing.JPanel {
 
     private home.Home mainHome;
-    private ArrayList<classes.business.Product> products = new ArrayList<>();
-        private ArrayList<Button> buttons = new ArrayList<>();
+    private ArrayList<Button> buttons = new ArrayList<>();
+    private ArrayList<classes.business.Product> cart = new ArrayList<>();
 
     public Cash(home.Home home) {
         initComponents();
         
         mainHome = home;
-        jScrollPane1.getViewport().setBackground(Color.decode("#1976F0"));
+        jScrollPane2.getViewport().setBackground(Color.decode("#1976F0"));
         table_products.setShowGrid(false);
         table_products.setShowHorizontalLines(false);
         table_products.setShowVerticalLines(false);
@@ -45,16 +52,61 @@ public class Cash extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        nif_input = new javax.swing.JTextField();
+        finish_sell = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table_products = new javax.swing.JTable();
-        buttons_scroller = new javax.swing.JScrollPane();
         buttons_container = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table_products = new javax.swing.JTable();
 
-        jScrollPane1.setBackground(new java.awt.Color(25, 118, 240));
-        jScrollPane1.setBorder(null);
+        nif_input.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        nif_input.setText("NIF");
+        nif_input.setToolTipText("NIF");
+        nif_input.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nif_inputActionPerformed(evt);
+            }
+        });
+
+        finish_sell.setBackground(new java.awt.Color(25, 118, 240));
+        finish_sell.setFont(new java.awt.Font(".AppleSystemUIFont", 1, 14)); // NOI18N
+        finish_sell.setForeground(new java.awt.Color(255, 255, 255));
+        finish_sell.setText("Terminar Compra");
+        finish_sell.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                finish_sellActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(finish_sell, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nif_input))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(nif_input, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(finish_sell, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        buttons_container.setLayout(new java.awt.GridLayout(10, 5));
+        jScrollPane1.setViewportView(buttons_container);
+
+        jScrollPane2.setBackground(new java.awt.Color(25, 118, 240));
 
         table_products.setBackground(new java.awt.Color(25, 118, 240));
-        table_products.setFont(new java.awt.Font(".AppleSystemUIFont", 0, 18)); // NOI18N
+        table_products.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         table_products.setForeground(new java.awt.Color(255, 255, 255));
         table_products.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -64,56 +116,135 @@ public class Cash extends javax.swing.JPanel {
                 {null, null, null}
             },
             new String [] {
-                "Produto", "Quantidade", "Preço"
+                "Nome", "Quantidade", "Preço"
             }
-        ));
-        table_products.setEnabled(false);
-        table_products.setRowSelectionAllowed(false);
-        jScrollPane1.setViewportView(table_products);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Float.class, java.lang.Float.class
+            };
 
-        buttons_container.setLayout(new java.awt.GridLayout());
-        buttons_scroller.setViewportView(buttons_container);
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(table_products);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(buttons_scroller, javax.swing.GroupLayout.DEFAULT_SIZE, 1139, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE))
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(buttons_scroller)
-                .addGap(100, 100, 100))
+            .addComponent(jScrollPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void nif_inputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nif_inputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nif_inputActionPerformed
 
-    public void GetAllProducts () {
+    private void finish_sellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finish_sellActionPerformed
         
-    }
+        try {
+            Sales sale = null;
+            try {
+                
+                if (nif_input.getText().equals("") || nif_input.getText().equals("NIF")) {
+                   sale = new Sales(null, this.mainHome.user, cart);  
+                } else {
+                    ResultSet result = mainHome.db.executeQuery("SELECT id, nif, full_name, morada FROM clientes WHERE nif = '?';", nif_input.getText()); 
+                    Cliente cliente = null;
+                    while (result.next()) {
+                        cliente = new Cliente(result.getInt("id"), result.getString("full_name"), result.getString("nif"), result.getString("morada"));
+                    }
+                    sale = new Sales(cliente, this.mainHome.user, cart); 
+                }
+                               
+            } catch (NumberFormatException e) {
+                System.out.println(e);
+            }
+                        
+            //Adicionar venda a base de dados
+            String query = "BEGIN;\n\n";
+            query += "WITH sale as ("
+                   + "INSERT INTO sales (total, client_id, employee_id) VALUES (" + sale.getTotal() + ","+ sale.getClienteId() + "," + sale.getEmployeeId() + ")"
+                   + "RETURNING *"
+                   + "),";
+            
+            Integer numbCart = cart.size() - 1;
+            Integer row = 0;
+            for (Product protuct : cart) {
+                
+                if (numbCart - 1 == row) {
+                    query += "sale_line_" + row + " as (\n" +
+                             "INSERT INTO sale_line (sale_id, product_id, amount)\n" +
+                             "VALUES ((select sale.id from sale), " + protuct.getId() + ", " + protuct.getQuantity() + ")\n" +
+                             ")\n";
+                    
+                } else if (numbCart == row) {
+                    query += "INSERT INTO sale_line (sale_id, product_id, amount)\n" +
+                             "VALUES ((select sale.id from sale), " + protuct.getId() + ", " + protuct.getQuantity() + ");\n\n";
+                    
+                } else {
+                    query += "sale_line_" + row + " as (\n" +
+                             "INSERT INTO sale_line (sale_id, product_id, amount)\n" +
+                             "VALUES ((select sale.id from sale), " + protuct.getId() + ", " + protuct.getQuantity() + ")\n" +
+                             "),\n";
+                }
+                
+                row++;
+            }
+            
+            query += "COMMIT;";
+            
+            mainHome.db.updateQuery(query);                        
+        } catch (Exception e) {
+            
+            e.printStackTrace();
+        }
+        
+        
+        cart.clear();
+        DefaultTableModel model = new DefaultTableModel(); 
+        model.addColumn("Nome");
+        model.addColumn("Quantidade");
+        model.addColumn("Preço");
+        model.addTableModelListener(table_products);
+        table_products.getTableHeader().setReorderingAllowed(false);
+        table_products.setModel(model);
+    }//GEN-LAST:event_finish_sellActionPerformed
     
     public void LoadProducts () {
         
         try {
-            ResultSet result = mainHome.db.executeQuery("SELECT id, name, price, amount FROM products;");
-            Integer countLines = 0;
-           
+            ResultSet result = mainHome.db.executeQuery("SELECT id, name, price FROM products;");            
             while (result.next()) {
-                classes.business.Product product = new classes.business.Product(result.getInt("id"), result.getString("name"), result.getDouble("price"), result.getDouble("name"));
-                products.add(product);
+                classes.business.Product product = new classes.business.Product(result.getInt("id"), result.getString("name"), result.getDouble("price"), 1);
                 
                 Button button = new Button();
-                button.setName(product.getName());
+                button.setLabel(product.getName());
+                button.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        AddProductToCart(product);
+                    }
+                       
+                });
+                buttons_container.add(button);
             }   
             
-         
-
            
         } catch (Exception e) {
             
@@ -121,10 +252,51 @@ public class Cash extends javax.swing.JPanel {
         }
     }
     
+    public void AddProductToCart (classes.business.Product product) {
+        
+        if (cart.contains(product)) {
+            cart.forEach(product_cart -> {
+                if (product_cart.getId() == product.getId() ) {
+                    product_cart.SumeAmmount(1);
+                }
+            });
+            
+        } else {
+            cart.add(product);
+        }
+        
+        DefaultTableModel model = new DefaultTableModel(); 
+        model.addColumn("Nome");
+        model.addColumn("Quantidade");
+        model.addColumn("Preço");
+        model.addTableModelListener(table_products);
+        table_products.getTableHeader().setReorderingAllowed(false);
+        
+        double totalPrice = 0;
+        
+        for (classes.business.Product product_cart : cart) {
+            double price = product_cart.CalculatePrice();
+            totalPrice += price;
+            
+            
+            model.addRow(new Object[]{product_cart.getName(), product_cart.getQuantity(), price + "€"});
+        }
+        
+        model.addRow(new Object[]{null, null, null});
+        model.addRow(new Object[]{"Total: ", null, totalPrice + "€"});
+
+        
+        table_products.setModel(model);
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel buttons_container;
-    private javax.swing.JScrollPane buttons_scroller;
+    private javax.swing.JButton finish_sell;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField nif_input;
     private javax.swing.JTable table_products;
     // End of variables declaration//GEN-END:variables
 }

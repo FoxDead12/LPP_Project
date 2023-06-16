@@ -11,10 +11,6 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * author dx3
- */
 public class Product extends javax.swing.JPanel {
 
     private home.Home mainHome;
@@ -90,7 +86,7 @@ public class Product extends javax.swing.JPanel {
         AddButton.setBorder(null);
         AddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                AddButtonActionPerformed(evt);
             }
         });
 
@@ -141,12 +137,11 @@ public class Product extends javax.swing.JPanel {
                     .addComponent(save_changes, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {
         Create create = new Create(this);
         create.setVisible(true);
     }                                        
@@ -161,9 +156,9 @@ public class Product extends javax.swing.JPanel {
 
                 String name = jTable1.getModel().getValueAt(row.index, 0).toString();
                 double price = Double.parseDouble(jTable1.getModel().getValueAt(row.index, 1).toString());
-                int quantity = Integer.parseInt(jTable1.getModel().getValueAt(row.index, 2).toString());
+                double quantity = Double.parseDouble(jTable1.getModel().getValueAt(row.index, 2).toString());
 
-                valuesQuery.add("UPDATE products SET name = '" + name + "', price = " + price + ", quantity = " + quantity + " WHERE id = " + row.id + ";");
+                valuesQuery.add("UPDATE products SET name = '" + name + "', price = " + price + ", amount = " + quantity + " WHERE id = " + row.id + ";");
             }
 
             mainHome.db.updateQuery(String.join(" ", valuesQuery));
@@ -202,15 +197,15 @@ public class Product extends javax.swing.JPanel {
         try {
             ResultSet result = mainHome.db.executeQuery("SELECT * FROM products ORDER BY name ASC");
             DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("Name");
-            model.addColumn("Price");
-            model.addColumn("Quantity");
+            model.addColumn("Nome");
+            model.addColumn("Preço");
+            model.addColumn("Quantidade");
             model.addTableModelListener(jTable1);
 
             jTable1.getTableHeader().setReorderingAllowed(false);
 
             while (result.next()) {
-                classes.business.Product product = new classes.business.Product(result.getInt("id"), result.getString("name"), result.getDouble("price"), result.getInt("quantity"));
+                classes.business.Product product = new classes.business.Product(result.getInt("id"), result.getString("name"), result.getDouble("price"), result.getInt("amount"));
                 productList.add(product);
             }
 
@@ -239,14 +234,15 @@ public class Product extends javax.swing.JPanel {
 
     public void CreateProduct(classes.business.Product product) {
 
+        System.out.println(product);
+        
         try {
 
-            mainHome.db.updateQuery("INSERT INTO products (name, price, quantity) VALUES ('?', ?, ?)", product.getName(), String.valueOf(product.getPrice()), String.valueOf(product.getQuantity()));
-
+            mainHome.db.updateQuery("INSERT INTO products (name, price, amount, bar_code, description, category) VALUES ('?', ?, ?, '', '', '');", product.getName(), Double.toString(product.getPrice()), Double.toString(product.getQuantity()));
             getAllProducts();
 
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
     }
 

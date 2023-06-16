@@ -186,13 +186,12 @@ public class Home extends javax.swing.JFrame {
     
     private void LoadMenu () {
 
-        Menu menu1 = new Menu("Home", new String[]{"manager"});
         Menu menu2 = new Menu("Produtos", new String[]{"manager"});
         Menu menu3 = new Menu("Vendas", new String[]{"manager"});
         Menu menu4 = new Menu("Empregados", new String[]{"manager"});
         Menu menu5 = new Menu("Clientes", new String[]{"manager"});
         Menu menu6 = new Menu("Caixa", new String[]{"manager", "employee"});
-        menus = new Menu[]{menu1, menu2, menu3, menu4, menu5, menu6};
+        menus = new Menu[]{menu2, menu3, menu4, menu5, menu6};
         
         DefaultListModel demoList = new DefaultListModel();
 
@@ -242,6 +241,9 @@ public class Home extends javax.swing.JFrame {
             switch (menu.name) {
                 case "Home" :
                     panel = new home.home.Home(this);
+                    break;
+                case "Vendas":
+                    panel = new home.sels.Sels(this);
                     break;
                 case "Clientes":
                     panel = new Cliente(this);

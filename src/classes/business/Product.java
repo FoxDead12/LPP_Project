@@ -16,9 +16,7 @@ public class Product{
         this.price = price;
         this.quantity = quantity;
     }
-    
-    public Product(String text, String text2, String text3) {
-    }
+   
 
     public int getId() {
         return this.id;
@@ -34,6 +32,14 @@ public class Product{
 
     public double getQuantity() {
         return this.quantity;
+    }
+    
+    public void SumeAmmount (double amount) {
+        this.quantity += amount;
+    }
+    
+    public double CalculatePrice () {
+        return this.quantity * this.price;
     }
 
 }

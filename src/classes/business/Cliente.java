@@ -5,6 +5,7 @@
 package classes.business;
 
 public class Cliente {
+    private Integer id;
     private String full_name = "";
     private String nif = "";
     private String address = "";
@@ -13,6 +14,13 @@ public class Cliente {
         this.full_name = full_name;
         this.nif = nif;
         this.address = address;
+    }
+    
+    public Cliente (Integer id, String full_name, String nif, String address) {
+        this.full_name = full_name;
+        this.nif = nif;
+        this.address = address;
+        this.id = id;
     }
     
     public String getName () {
@@ -25,5 +33,9 @@ public class Cliente {
     
     public String getAddres () {
         return this.address;
+    }
+    
+    public Integer getId () {
+        return this.id;
     }
 }
